@@ -1,20 +1,26 @@
-
+use anyhow::{Context, Result};
 use clap::Parser;
 
+/// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
-struct CLI{
-    /// The pattern to look
-    pattern:String,
+struct Cli {
+    /// The pattern to look for
+    pattern: String,
     /// The path to the file to read
-    path : std::path::PathBuf,
+    path: std::path::PathBuf,
 }
 
+fn main() -> Result<()> {
+    let args = Cli::parse();
 
-fn main() {
-    
+    let content = std::fs::read_to_string(&args.path)
+        .with_context(|| format!("could not read file `{}`", args.path.display()))?;
 
-    let args = CLI::parse();
-    println!("pattern: {:?}, path:{:?}",args.pattern,args.path)
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line);
+        }
+    }
+
+    Ok(())
 }
-
-
