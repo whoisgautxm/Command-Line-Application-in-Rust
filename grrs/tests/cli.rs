@@ -19,7 +19,7 @@ fn file_doesnt_exist() -> Result<(), Box<dyn std::error::Error>> {
 #[test]
 fn find_content_in_file() -> Result<(), Box<dyn std::error::Error>> {
     let file = assert_fs::NamedTempFile::new("sample.txt")?;
-    file.write_str("A test\nActual content\nMore content\nAnother test")?;
+    file.write_str("A test\nActual content\nMore content\nAnother team")?;
 
     let mut cmd = Command::cargo_bin("grrs")?;
 
